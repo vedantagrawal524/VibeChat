@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp/colors.dart';
-import 'package:whatsapp/responsive/responsive_layout.dart';
 import 'package:whatsapp/widgets/contact_list.dart';
 
 class MobileScreenLayout extends StatelessWidget {
