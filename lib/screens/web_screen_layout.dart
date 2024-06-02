@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:whatsapp/colors.dart';
 import 'package:whatsapp/widgets/chat_list.dart';
 import 'package:whatsapp/widgets/contact_list.dart';
