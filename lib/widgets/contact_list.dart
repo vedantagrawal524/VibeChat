@@ -25,28 +25,28 @@ class ContactList extends StatelessWidget {
                   );
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.only(bottom: 2),
                   child: ListTile(
                     title: Text(
                       info[index]['name'].toString(),
                       style: const TextStyle(fontSize: 18),
                     ),
                     subtitle: Padding(
-                      padding: const EdgeInsets.only(top: 6),
+                      padding: const EdgeInsets.only(top: 5),
                       child: Text(
                         info[index]['message'].toString(),
-                        style: const TextStyle(fontSize: 15),
+                        style: const TextStyle(fontSize: 14),
                       ),
                     ),
                     leading: CircleAvatar(
-                      radius: 26,
+                      radius: 24,
                       backgroundImage: NetworkImage(
                         info[index]['profilePic'].toString(),
                       ),
                     ),
                     trailing: Text(
                       info[index]['time'].toString(),
-                      style: const TextStyle(fontSize: 13, color: Colors.grey),
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                   ),
                 ),
@@ -54,6 +54,8 @@ class ContactList extends StatelessWidget {
               const Divider(
                 color: dividerColor,
                 indent: 85,
+                height: 9.5,
+                thickness: 0.8,
               )
             ],
           );

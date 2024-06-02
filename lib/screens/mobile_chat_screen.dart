@@ -10,7 +10,10 @@ class MobileChatScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarColor,
-        title: Text(info[0]['name'].toString()),
+        title: Text(
+          info[0]['name'].toString(),
+          style: const TextStyle(fontSize: 20),
+        ),
         centerTitle: false,
         actions: [
           IconButton(
