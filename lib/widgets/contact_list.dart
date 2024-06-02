@@ -34,6 +34,8 @@ class ContactList extends StatelessWidget {
                     subtitle: Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: Text(
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         info[index]['message'].toString(),
                         style: const TextStyle(fontSize: 14),
                       ),
