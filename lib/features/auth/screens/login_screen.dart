@@ -1,0 +1,95 @@
+import 'package:country_picker/country_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:whatsapp/colors.dart';
+import 'package:whatsapp/common/widgets/custom_button.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+  static const routeName = '/login-screen';
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final phoneController = TextEditingController();
+  Country? country;
+  @override
+  void dispose() {
+    super.dispose();
+    phoneController.dispose();
+  }
+
+  void pickCountry() {
+    showCountryPicker(
+        context: context,
+        showPhoneCode: true,
+        onSelect: (Country country_) {
+          setState(() {
+            country = country_;
+          });
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: backgroundColor,
+        title: const Text('Enter your phone number'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text('WhatsApp will need to verify your phone number.'),
+                const SizedBox(height: 10),
+                TextButton(
+                  onPressed: pickCountry,
+                  child: const Text(
+                    'Pick Country',
+                    style: TextStyle(color: Colors.lightBlueAccent),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    if (country != null) Text('+${country!.phoneCode}'),
+                    const SizedBox(width: 10),
+                    SizedBox(
+                      width: size.width * 0.7,
+                      child: TextField(
+                        controller: phoneController,
+                        decoration: const InputDecoration(
+                          hintText: 'phone number',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                SizedBox(
+                  width: 90,
+                  child: CustomButton(
+                    text: 'Next',
+                    onPressed: () {},
+                  ),
+                ),
+                const SizedBox(height: 15),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

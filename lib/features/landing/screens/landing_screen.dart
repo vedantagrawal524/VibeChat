@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:whatsapp/colors.dart';
 import 'package:whatsapp/common/widgets/custom_button.dart';
+import 'package:whatsapp/features/auth/screens/login_screen.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({super.key});
+  void navigateToLoginScreen(BuildContext context) {
+    Navigator.pushNamed(context, LoginScreen.routeName);
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -17,7 +21,7 @@ class LandingScreen extends StatelessWidget {
             const Text(
               'Welcome to WhatsApp',
               style: TextStyle(
-                fontSize: 33,
+                fontSize: 32,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -40,12 +44,12 @@ class LandingScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             SizedBox(
               width: size.width * 0.75,
               child: CustomButton(
                 text: 'Agree and continue',
-                onPressed: () {},
+                onPressed: () => navigateToLoginScreen(context),
               ),
             ),
           ],
