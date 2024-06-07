@@ -3,6 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:whatsapp/common/utils/utils.dart';
 import 'package:whatsapp/features/auth/screens/otp_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final authRepositryProvider = Provider(
+  (ref) => AuthRepositry(
+    auth: FirebaseAuth.instance,
+    firestore: FirebaseFirestore.instance,
+  ),
+);
 
 class AuthRepositry {
   final FirebaseAuth auth;
@@ -17,7 +25,7 @@ class AuthRepositry {
       await auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithPhoneNumber(phoneNumber);
+          await auth.signInWithCredential(credential);
         },
         verificationFailed: (e) {
           throw Exception(e.message);
