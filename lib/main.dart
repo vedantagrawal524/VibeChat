@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: const UserInformationScreen(),
+      home: const LandingScreen(),
     );
   }
 }
