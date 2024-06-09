@@ -6,8 +6,8 @@ import 'package:whatsapp/widgets/web_chat_appbar.dart';
 import 'package:whatsapp/widgets/web_profile_bar.dart';
 import 'package:whatsapp/widgets/web_search_bar.dart';
 
-class WebScreenLayout extends StatelessWidget {
-  const WebScreenLayout({super.key});
+class WebLayoutScreen extends StatelessWidget {
+  const WebLayoutScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
