@@ -93,16 +93,14 @@ class AuthRepository {
         uid: uid,
         name: name,
         profilePic: photoUrl,
-        phoneNumber: auth.currentUser!.uid,
+        phoneNumber: auth.currentUser!.phoneNumber!,
         isOnline: true,
         groupId: [],
       );
       await firestore.collection('users').doc(uid).set(user.toMap());
-      Navigator.pushAndRemoveUntil(
+      Navigator.pushNamedAndRemoveUntil(
         context,
-        MaterialPageRoute(
-          builder: (context) => const MobileLayoutScreen(),
-        ),
+        MobileLayoutScreen.routeName,
         (route) => false,
       );
     } on FirebaseAuthException catch (e) {

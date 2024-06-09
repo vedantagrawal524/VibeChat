@@ -51,5 +51,7 @@
 	<string>Camera Libaray Use</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Mic Libaray Use</string>
+	<key>NSContactsUsageDescription</key>
+    <string>Contact list to Chat</string>
 </dict>
 </plist>

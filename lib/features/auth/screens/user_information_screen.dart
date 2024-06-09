@@ -8,7 +8,7 @@ import 'package:whatsapp/features/auth/controller/auth_controller.dart';
 
 class UserInformationScreen extends ConsumerStatefulWidget {
   const UserInformationScreen({super.key});
-  static const routeName = '/user-information';
+  static const routeName = '/user-information-screen';
   @override
   ConsumerState<UserInformationScreen> createState() =>
       _UserInformationScreenState();

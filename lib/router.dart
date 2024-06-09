@@ -3,6 +3,9 @@ import 'package:whatsapp/common/widgets/error_screen.dart';
 import 'package:whatsapp/features/auth/screens/login_screen.dart';
 import 'package:whatsapp/features/auth/screens/otp_screen.dart';
 import 'package:whatsapp/features/auth/screens/user_information_screen.dart';
+import 'package:whatsapp/features/select_contacts/screens/select_contacts_screen.dart';
+import 'package:whatsapp/screens/mobile_chat_screen.dart';
+import 'package:whatsapp/screens/mobile_layout_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings setttings) {
   switch (setttings.name) {
@@ -22,6 +25,21 @@ Route<dynamic> generateRoute(RouteSettings setttings) {
     case UserInformationScreen.routeName:
       return MaterialPageRoute(
         builder: (context) => const UserInformationScreen(),
+      );
+
+    case MobileLayoutScreen.routeName:
+      return MaterialPageRoute(
+        builder: (context) => const MobileLayoutScreen(),
+      );
+
+    case SelectContactsScreen.routeName:
+      return MaterialPageRoute(
+        builder: (context) => const SelectContactsScreen(),
+      );
+
+    case MobileChatScreen.routeName:
+      return MaterialPageRoute(
+        builder: (context) => const MobileChatScreen(),
       );
 
     default:
