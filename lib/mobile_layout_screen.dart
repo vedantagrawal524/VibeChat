@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whatsapp/colors.dart';
+import 'package:whatsapp/common/utils/colors.dart';
 import 'package:whatsapp/features/select_contacts/screens/select_contacts_screen.dart';
 import 'package:whatsapp/features/chat/widgets/contact_list.dart';
 

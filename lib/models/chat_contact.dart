@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ChatContact {
   final String name;
   final String profilePic;
@@ -18,7 +20,7 @@ class ChatContact {
       'name': name,
       'profilePic': profilePic,
       'contactId': contactId,
-      'timeSent': timeSent,
+      'timeSent': Timestamp.fromDate(timeSent),
       'lastMessage': lastMessage,
     };
   }
@@ -28,7 +30,7 @@ class ChatContact {
       name: map['name'] ?? '',
       profilePic: map['profilePic'] ?? '',
       contactId: map['contactId'] ?? '',
-      timeSent: map['timeSent'] ?? '',
+      timeSent: (map['timeSent'] as Timestamp).toDate(),
       lastMessage: map['lastMessage'] ?? '',
     );
   }

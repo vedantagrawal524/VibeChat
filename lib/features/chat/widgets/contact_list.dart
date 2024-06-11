@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:whatsapp/colors.dart';
+import 'package:whatsapp/common/utils/colors.dart';
 import 'package:whatsapp/common/widgets/loader.dart';
 import 'package:whatsapp/features/chat/controller/chat_controller.dart';
 import 'package:whatsapp/features/chat/screens/mobile_chat_screen.dart';
@@ -19,6 +19,10 @@ class ContactList extends ConsumerWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loader();
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('Try again Later!'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No contacts found.'));
           }
           return ListView.builder(
             shrinkWrap: true,

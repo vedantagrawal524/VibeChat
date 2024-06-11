@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whatsapp/colors.dart';
+import 'package:whatsapp/common/utils/colors.dart';
 import 'package:whatsapp/features/chat/controller/chat_controller.dart';
 
 class BottomChatField extends ConsumerStatefulWidget {
@@ -21,7 +21,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
     if (isShowSendButton) {
       ref.read(chatControllerProvider).sendTextMessage(
             context,
-            _messageController.text,
+            _messageController.text.trim(),
             widget.recieverUserId,
           );
       setState(() {

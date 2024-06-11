@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:whatsapp/common/enums/message_enum.dart';
 import 'package:whatsapp/common/utils/utils.dart';
-import 'package:whatsapp/info.dart';
 import 'package:whatsapp/models/chat_contact.dart';
 import 'package:whatsapp/models/message_dart.dart';
 import 'package:whatsapp/models/user_model.dart';
@@ -52,6 +51,27 @@ class ChatRepository {
           ));
         }
         return contacts;
+      },
+    );
+  }
+
+  Stream<List<Message>> getChatStream(String receiverUserId) {
+    return firestore
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .collection('chats')
+        .doc(receiverUserId)
+        .collection('messages')
+        .orderBy('timeSent')
+        .snapshots()
+        .map(
+      (event) {
+        List<Message> messages = [];
+        for (var document in event.docs) {
+          var message = Message.fromMap(document.data());
+          messages.add(message);
+        }
+        return messages;
       },
     );
   }

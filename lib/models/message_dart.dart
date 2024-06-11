@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:whatsapp/common/enums/message_enum.dart';
 
 class Message {
@@ -24,7 +25,7 @@ class Message {
       'reciverUserId': reciverUserId,
       'text': text,
       'type': type.type,
-      'timeSent': timeSent,
+      'timeSent': Timestamp.fromDate(timeSent),
       'messageId': messageId,
       'isSeen': isSeen,
     };
@@ -36,7 +37,7 @@ class Message {
       reciverUserId: map['reciverUserId'] ?? '',
       text: map['text'] ?? '',
       type: (map['type'] as String).toEnum(),
-      timeSent: map['timeSent'] ?? '',
+      timeSent: (map['timeSent'] as Timestamp).toDate(),
       messageId: map['messageId'] ?? '',
       isSeen: map['isSeen'] ?? '',
     );

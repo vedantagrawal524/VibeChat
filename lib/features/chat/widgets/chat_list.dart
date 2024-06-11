@@ -1,26 +1,66 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:whatsapp/info.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:whatsapp/common/widgets/loader.dart';
+import 'package:whatsapp/features/chat/controller/chat_controller.dart';
 import 'package:whatsapp/features/chat/widgets/my_message_card.dart';
 import 'package:whatsapp/features/chat/widgets/sender_message_card.dart';
+import 'package:whatsapp/models/message_dart.dart';
 
-class ChatList extends StatelessWidget {
-  const ChatList({super.key});
+class ChatList extends ConsumerStatefulWidget {
+  const ChatList({
+    super.key,
+    required this.receiverUserId,
+  });
+  final String receiverUserId;
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _ChatListState();
+}
+
+class _ChatListState extends ConsumerState<ChatList> {
+  final ScrollController messageController = ScrollController();
+  @override
+  void dispose() {
+    super.dispose();
+    messageController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: messages.length,
-      itemBuilder: (context, index) {
-        if (messages[index]['isMe'] == true) {
-          return MyMessageCard(
-            message: messages[index]['text'].toString(),
-            date: messages[index]['time'].toString(),
-          );
-        } else {
-          return SenderMessageCard(
-            message: messages[index]['text'].toString(),
-            date: messages[index]['time'].toString(),
-          );
+    return StreamBuilder<List<Message>>(
+      stream:
+          ref.watch(chatControllerProvider).chatStream(widget.receiverUserId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Loader();
+        } else if (snapshot.hasError) {
+          return const Center(child: Text('Try again Later!'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(child: Text('No Messages found.'));
         }
+        SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+          messageController.jumpTo(messageController.position.maxScrollExtent);
+        });
+        return ListView.builder(
+          controller: messageController,
+          itemCount: snapshot.data!.length,
+          itemBuilder: (context, index) {
+            var message = snapshot.data![index];
+            if (message.senderId == FirebaseAuth.instance.currentUser!.uid) {
+              return MyMessageCard(
+                message: message.text,
+                date: DateFormat.Hm().format(message.timeSent),
+              );
+            } else {
+              return SenderMessageCard(
+                message: message.text,
+                date: DateFormat.Hm().format(message.timeSent),
+              );
+            }
+          },
+        );
       },
     );
   }
