@@ -9,6 +9,7 @@ enum MessageEnum {
   final String type;
 }
 
+//
 extension ConvertMessage on String {
   MessageEnum toEnum() {
     switch (this) {
