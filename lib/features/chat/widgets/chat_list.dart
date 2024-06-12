@@ -52,11 +52,13 @@ class _ChatListState extends ConsumerState<ChatList> {
               return MyMessageCard(
                 message: message.text,
                 date: DateFormat.Hm().format(message.timeSent),
+                messageType: message.type,
               );
             } else {
               return SenderMessageCard(
                 message: message.text,
                 date: DateFormat.Hm().format(message.timeSent),
+                messageType: message.type,
               );
             }
           },
