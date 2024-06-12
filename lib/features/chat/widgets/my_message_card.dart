@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:whatsapp/common/enums/message_enum.dart';
 import 'package:whatsapp/common/utils/colors.dart';
+import 'package:whatsapp/features/chat/widgets/display_file.dart';
 
 class MyMessageCard extends StatelessWidget {
   const MyMessageCard({
     super.key,
     required this.message,
     required this.date,
+    required this.messageType,
   });
   final String message;
   final String date;
+  final MessageEnum messageType;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -27,15 +31,22 @@ class MyMessageCard extends StatelessWidget {
           child: Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.only(
-                  left: 10,
-                  right: 30,
-                  top: 5,
-                  bottom: 20,
-                ),
-                child: Text(
-                  message,
-                  style: const TextStyle(fontSize: 16),
+                padding: messageType == MessageEnum.text
+                    ? const EdgeInsets.only(
+                        left: 10,
+                        right: 30,
+                        top: 5,
+                        bottom: 20,
+                      )
+                    : const EdgeInsets.only(
+                        left: 5,
+                        right: 5,
+                        top: 5,
+                        bottom: 25,
+                      ),
+                child: DisplayFile(
+                  file: message,
+                  messageType: messageType,
                 ),
               ),
               Positioned(
