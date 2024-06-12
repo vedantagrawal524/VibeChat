@@ -200,16 +200,7 @@ class ChatRepository {
     try {
       var timeSent = DateTime.now();
       var messageId = const Uuid().v1();
-<<<<<<< HEAD
 
-=======
-      String fileUrl = await ref
-          .read(commonFirebaseStorageRepositoryProvider)
-          .storeFileToFirebase(
-            'chat/${senderUserData.uid}/$receiverUserId/$messageId',
-            file,
-          );
->>>>>>> 4b1ad5a9d95a379d689dea1a36a9afd6e83c56f9
       UserModel receiverUserData;
       var userDataMap =
           await firestore.collection('users').doc(receiverUserId).get();
@@ -230,7 +221,6 @@ class ChatRepository {
           contactMsg = 'GIF';
           break;
         default:
-<<<<<<< HEAD
           contactMsg = 'Text';
       }
       String fileUrl = await ref
@@ -239,10 +229,6 @@ class ChatRepository {
             'chat/${senderUserData.uid}/$receiverUserId/$contactMsg/$messageId',
             file,
           );
-=======
-          contactMsg = 'GIF';
-      }
->>>>>>> 4b1ad5a9d95a379d689dea1a36a9afd6e83c56f9
       _saveDataToContactsSubcollection(
         senderUserData,
         receiverUserData,
