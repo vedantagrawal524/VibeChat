@@ -50,6 +50,13 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
     }
   }
 
+  void sendVideo() async {
+    File? video = await pickVideoFromGallery(context);
+    if (video != null) {
+      sendFileMessage(video, MessageEnum.video);
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -109,14 +116,14 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                         icon: const Icon(Icons.camera_alt, color: greyColor),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: sendVideo,
                         icon: const Icon(Icons.attach_file, color: greyColor),
                       ),
                     ],
                   ),
                 ),
               ),
-              hintText: 'Type a message',
+              hintText: 'Message',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
                 borderSide: const BorderSide(

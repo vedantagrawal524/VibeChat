@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:whatsapp/common/enums/message_enum.dart';
+import 'package:whatsapp/features/chat/widgets/video_player.dart';
 
 class DisplayFile extends StatelessWidget {
   const DisplayFile({
@@ -15,9 +16,12 @@ class DisplayFile extends StatelessWidget {
   Widget build(BuildContext context) {
     return messageType == MessageEnum.text
         ? Text(
+            textAlign: TextAlign.left,
             file,
             style: const TextStyle(fontSize: 16),
           )
-        : CachedNetworkImage(imageUrl: file);
+        : messageType == MessageEnum.image
+            ? CachedNetworkImage(imageUrl: file)
+            : VideoPlayer(videoUrl: file);
   }
 }

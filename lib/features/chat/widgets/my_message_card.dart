@@ -20,6 +20,7 @@ class MyMessageCard extends StatelessWidget {
       child: ConstrainedBox(
         constraints: BoxConstraints(
           maxWidth: MediaQuery.of(context).size.width - 45,
+          minWidth: 100,
         ),
         child: Card(
           elevation: 1,
@@ -33,8 +34,8 @@ class MyMessageCard extends StatelessWidget {
               Padding(
                 padding: messageType == MessageEnum.text
                     ? const EdgeInsets.only(
-                        left: 10,
-                        right: 30,
+                        left: 5,
+                        right: 10,
                         top: 5,
                         bottom: 20,
                       )
@@ -42,7 +43,7 @@ class MyMessageCard extends StatelessWidget {
                         left: 5,
                         right: 5,
                         top: 5,
-                        bottom: 25,
+                        bottom: 20,
                       ),
                 child: DisplayFile(
                   file: message,
@@ -50,21 +51,21 @@ class MyMessageCard extends StatelessWidget {
                 ),
               ),
               Positioned(
-                bottom: 4,
-                right: 10,
+                bottom: 2,
+                right: 5,
                 child: Row(
                   children: [
                     Text(
                       date,
                       style: const TextStyle(
-                        fontSize: 13,
+                        fontSize: 12.5,
                         color: Colors.white60,
                       ),
                     ),
                     const SizedBox(width: 5),
                     const Icon(
                       Icons.done_all,
-                      size: 20,
+                      size: 17.5,
                       color: Colors.white60,
                     )
                   ],
