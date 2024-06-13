@@ -20,8 +20,10 @@ class DisplayFile extends StatelessWidget {
             file,
             style: const TextStyle(fontSize: 16),
           )
-        : messageType == MessageEnum.image
-            ? CachedNetworkImage(imageUrl: file)
-            : VideoPlayer(videoUrl: file);
+        : messageType == MessageEnum.video
+            ? VideoPlayer(videoUrl: file)
+            : messageType == MessageEnum.gif
+                ? CachedNetworkImage(imageUrl: file)
+                : CachedNetworkImage(imageUrl: file);
   }
 }

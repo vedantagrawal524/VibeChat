@@ -65,4 +65,22 @@ class ChatController {
           ),
         );
   }
+
+  void sendGIFMessage(
+    BuildContext context,
+    String gifUrl,
+    String receiverUserId,
+  ) {
+    int lastind = gifUrl.lastIndexOf('-') + 1;
+    String gifUrlPart = gifUrl.substring(lastind);
+    String newGIFUrl = 'https://i.giphy.com/media/$gifUrlPart/200.gif';
+    ref.read(userDataAuthProvider).whenData(
+          (value) => chatRepository.sendGIFMessage(
+            context: context,
+            gifUrl: newGIFUrl,
+            receiverUserId: receiverUserId,
+            sendUser: value!,
+          ),
+        );
+  }
 }

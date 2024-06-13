@@ -57,6 +57,17 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
     }
   }
 
+  void sendGIF() async {
+    final gif = await pickGIF(context);
+    if (gif != null) {
+      ref.read(chatControllerProvider).sendGIFMessage(
+            context,
+            gif.url,
+            widget.receiverUserId,
+          );
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -97,7 +108,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                             const Icon(Icons.emoji_emotions, color: greyColor),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: sendGIF,
                         icon: const Icon(Icons.gif, color: greyColor),
                       ),
                     ],
