@@ -53,5 +53,7 @@
 	<string>Mic Libaray Use</string>
 	<key>NSContactsUsageDescription</key>
     <string>Contact list to Chat</string>
+     <key>NSAppleMusicUsageDescription</key>
+     <string>Audio Recording</string>
 </dict>
 </plist>

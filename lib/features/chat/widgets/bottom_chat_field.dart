@@ -2,6 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:whatsapp/common/enums/message_enum.dart';
 import 'package:whatsapp/common/utils/colors.dart';
 import 'package:whatsapp/common/utils/utils.dart';
@@ -21,18 +24,9 @@ class BottomChatField extends ConsumerStatefulWidget {
 class _BottomChatFieldState extends ConsumerState<BottomChatField> {
   bool isShowSendButton = false;
   final TextEditingController _messageController = TextEditingController();
-  void sendTextMessage() async {
-    if (isShowSendButton) {
-      ref.read(chatControllerProvider).sendTextMessage(
-            context,
-            _messageController.text.trim(),
-            widget.receiverUserId,
-          );
-      setState(() {
-        _messageController.text = '';
-      });
-    }
-  }
+  FlutterSoundRecorder? _soundRecorder;
+  bool isRecorderInIt = false;
+  bool isRecording = false;
 
   void sendFileMessage(File file, MessageEnum messageType) {
     ref.read(chatControllerProvider).sendFileMessag(
@@ -41,6 +35,35 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
           widget.receiverUserId,
           messageType,
         );
+  }
+
+  void sendTextOrAudio() async {
+    if (isShowSendButton) {
+      ref.read(chatControllerProvider).sendTextMessage(
+            context,
+            _messageController.text.trim(),
+            widget.receiverUserId,
+          );
+      setState(() {
+        _messageController.text = '';
+        isShowSendButton = false;
+      });
+    } else {
+      var tempDir = await getTemporaryDirectory();
+      var path = '${tempDir.path}/flutter_sound.aac';
+      if (!isRecorderInIt) {
+        return;
+      }
+      if (isRecording) {
+        await _soundRecorder!.stopRecorder();
+        sendFileMessage(File(path), MessageEnum.audio);
+      } else {
+        await _soundRecorder!.startRecorder(toFile: path);
+      }
+      setState(() {
+        isRecording = !isRecording;
+      });
+    }
   }
 
   void sendImage() async {
@@ -68,21 +91,41 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
     }
   }
 
+  void openAudio() async {
+    final status = await Permission.microphone.request();
+    if (status != PermissionStatus.granted) {
+      showSnackBar(context: context, content: 'Mic Permission not allowed!');
+      return;
+    }
+    await _soundRecorder!.openRecorder();
+    isRecorderInIt = true;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _soundRecorder = FlutterSoundRecorder();
+    openAudio();
+  }
+
   @override
   void dispose() {
     super.dispose();
     _messageController.dispose();
+    _soundRecorder!.closeRecorder();
+    isRecorderInIt = false;
   }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
+        const SizedBox(width: 6),
         Expanded(
           child: TextFormField(
             controller: _messageController,
             onChanged: (value) {
-              if (value.isNotEmpty) {
+              if (value.isNotEmpty && value.trim().isNotEmpty) {
                 setState(() {
                   isShowSendButton = true;
                 });
@@ -98,18 +141,15 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
               prefixIcon: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 1),
                 child: SizedBox(
-                  width: 100,
+                  width: 48,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       IconButton(
+                        iconSize: 22,
                         onPressed: () {},
                         icon:
                             const Icon(Icons.emoji_emotions, color: greyColor),
-                      ),
-                      IconButton(
-                        onPressed: sendGIF,
-                        icon: const Icon(Icons.gif, color: greyColor),
                       ),
                     ],
                   ),
@@ -118,17 +158,24 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
               suffixIcon: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 1),
                 child: SizedBox(
-                  width: 100,
+                  width: 144,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       IconButton(
-                        onPressed: sendImage,
-                        icon: const Icon(Icons.camera_alt, color: greyColor),
+                        iconSize: 22,
+                        onPressed: sendGIF,
+                        icon: const Icon(Icons.gif, color: greyColor),
                       ),
                       IconButton(
+                        iconSize: 22,
                         onPressed: sendVideo,
                         icon: const Icon(Icons.attach_file, color: greyColor),
+                      ),
+                      IconButton(
+                        iconSize: 22,
+                        onPressed: sendImage,
+                        icon: const Icon(Icons.camera_alt, color: greyColor),
                       ),
                     ],
                   ),
@@ -136,7 +183,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
               ),
               hintText: 'Message',
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(50),
                 borderSide: const BorderSide(
                   width: 0,
                   style: BorderStyle.none,
@@ -148,17 +195,22 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
         ),
         Padding(
           padding: const EdgeInsets.only(
-            bottom: 8,
-            right: 2,
-            left: 2,
+            bottom: 5,
+            right: 5,
+            top: 5,
+            left: 5,
           ),
-          child: GestureDetector(
-            onTap: sendTextMessage,
-            child: CircleAvatar(
-              backgroundColor: sendButtonColor,
-              radius: 25,
+          child: CircleAvatar(
+            backgroundColor: sendButtonColor,
+            radius: 25,
+            child: GestureDetector(
+              onTap: sendTextOrAudio,
               child: Icon(
-                isShowSendButton ? Icons.send : Icons.mic,
+                isShowSendButton
+                    ? Icons.send
+                    : isRecording
+                        ? Icons.close
+                        : Icons.mic,
                 color: whiteColor,
               ),
             ),
