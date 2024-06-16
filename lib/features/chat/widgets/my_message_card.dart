@@ -14,6 +14,7 @@ class MyMessageCard extends StatelessWidget {
     required this.repliedToMessage,
     required this.repiledToUser,
     required this.replyToType,
+    required this.isSeen,
   });
   final String message;
   final String date;
@@ -22,6 +23,7 @@ class MyMessageCard extends StatelessWidget {
   final String repliedToMessage;
   final String repiledToUser;
   final MessageEnum replyToType;
+  final bool isSeen;
 
   @override
   Widget build(BuildContext context) {
@@ -102,10 +104,10 @@ class MyMessageCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 5),
-                      const Icon(
+                      Icon(
                         Icons.done_all,
                         size: 17.5,
-                        color: Colors.white60,
+                        color: isSeen ? Colors.blue : Colors.white60,
                       )
                     ],
                   ),
