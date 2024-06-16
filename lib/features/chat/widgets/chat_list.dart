@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:whatsapp/common/enums/message_enum.dart';
+import 'package:whatsapp/common/providers/message_reply_to_provider.dart';
 import 'package:whatsapp/common/widgets/loader.dart';
 import 'package:whatsapp/features/chat/controller/chat_controller.dart';
 import 'package:whatsapp/features/chat/widgets/my_message_card.dart';
@@ -25,6 +27,20 @@ class _ChatListState extends ConsumerState<ChatList> {
   void dispose() {
     super.dispose();
     messageController.dispose();
+  }
+
+  void onMessageSwipe(
+    String message,
+    bool isMe,
+    MessageEnum type,
+  ) {
+    ref.read(messageReplyProvider.notifier).update(
+          (state) => MessageReplyTo(
+            message: message,
+            isMe: isMe,
+            messageType: type,
+          ),
+        );
   }
 
   @override
@@ -53,12 +69,28 @@ class _ChatListState extends ConsumerState<ChatList> {
                 message: message.text,
                 date: DateFormat.Hm().format(message.timeSent),
                 messageType: message.type,
+                onRightSwipe: () => onMessageSwipe(
+                  message.text,
+                  true,
+                  message.type,
+                ),
+                repliedToMessage: message.repliedToMessage,
+                repiledToUser: message.repliedToUser,
+                replyToType: message.replyToType,
               );
             } else {
               return SenderMessageCard(
                 message: message.text,
                 date: DateFormat.Hm().format(message.timeSent),
                 messageType: message.type,
+                onRightSwipe: () => onMessageSwipe(
+                  message.text,
+                  false,
+                  message.type,
+                ),
+                repliedToMessage: message.repliedToMessage,
+                repiledToUser: message.repliedToUser,
+                replyToType: message.replyToType,
               );
             }
           },

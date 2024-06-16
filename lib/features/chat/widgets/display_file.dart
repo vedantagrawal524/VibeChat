@@ -21,7 +21,7 @@ class DisplayFile extends StatelessWidget {
         ? Text(
             textAlign: TextAlign.left,
             file,
-            style: const TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 17),
           )
         : messageType == MessageEnum.image
             ? CachedNetworkImage(imageUrl: file)

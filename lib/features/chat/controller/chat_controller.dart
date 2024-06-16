@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/common/enums/message_enum.dart';
+import 'package:whatsapp/common/providers/message_reply_to_provider.dart';
 import 'package:whatsapp/features/auth/controller/auth_controller.dart';
 import 'package:whatsapp/features/chat/repository/chat_repository.dart';
 import 'package:whatsapp/models/chat_contact.dart';
@@ -30,14 +31,17 @@ class ChatController {
     String text,
     String receiverUserId,
   ) {
+    final messageReplyTo = ref.read(messageReplyProvider);
     ref.read(userDataAuthProvider).whenData(
           (value) => chatRepository.sendTextMessage(
             context: context,
             text: text,
             receiverUserId: receiverUserId,
             sendUser: value!,
+            messageReplyTo: messageReplyTo,
           ),
         );
+    ref.read(messageReplyProvider.notifier).update((state) => null);
   }
 
   Stream<List<ChatContact>> chatContacts() {
@@ -54,6 +58,8 @@ class ChatController {
     String receiverUserId,
     MessageEnum messagetype,
   ) {
+    final messageReplyTo = ref.read(messageReplyProvider);
+
     ref.read(userDataAuthProvider).whenData(
           (value) => chatRepository.sendFileMessag(
             context: context,
@@ -62,8 +68,10 @@ class ChatController {
             senderUserData: value!,
             ref: ref,
             messagetype: messagetype,
+            messageReplyTo: messageReplyTo,
           ),
         );
+    ref.read(messageReplyProvider.notifier).update((state) => null);
   }
 
   void sendGIFMessage(
@@ -74,13 +82,17 @@ class ChatController {
     int lastind = gifUrl.lastIndexOf('-') + 1;
     String gifUrlPart = gifUrl.substring(lastind);
     String newGIFUrl = 'https://i.giphy.com/media/$gifUrlPart/200.gif';
+    final messageReplyTo = ref.read(messageReplyProvider);
+
     ref.read(userDataAuthProvider).whenData(
           (value) => chatRepository.sendGIFMessage(
             context: context,
             gifUrl: newGIFUrl,
             receiverUserId: receiverUserId,
             sendUser: value!,
+            messageReplyTo: messageReplyTo,
           ),
         );
+    ref.read(messageReplyProvider.notifier).update((state) => null);
   }
 }
