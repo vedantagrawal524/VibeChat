@@ -10,7 +10,7 @@ import 'package:whatsapp/common/providers/message_reply_to_provider.dart';
 import 'package:whatsapp/common/repository/common_firebase_storage_repository.dart';
 import 'package:whatsapp/common/utils/utils.dart';
 import 'package:whatsapp/models/chat_contact.dart';
-import 'package:whatsapp/models/message_dart.dart';
+import 'package:whatsapp/models/message.dart';
 import 'package:whatsapp/models/user_model.dart';
 
 final chatRepositoryProvider = Provider(

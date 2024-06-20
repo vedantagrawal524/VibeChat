@@ -1,2 +1,2 @@
 const String defaultImage =
-    'https://png.pngitem.com/pimgs/s/649-6490124_katie-notopoulos-katienotopoulos-i-write-about-tech-round.png';
+    'https://firebasestorage.googleapis.com/v0/b/whatsapp-8fbbf.appspot.com/o/defaults%2FprofilePic.jpg?alt=media&token=130ba278-56e7-4f20-b2a8-6ed7ffb56699';

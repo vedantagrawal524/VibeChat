@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:whatsapp/common/widgets/error_screen.dart';
 import 'package:whatsapp/features/auth/screens/login_screen.dart';
@@ -5,7 +7,10 @@ import 'package:whatsapp/features/auth/screens/otp_screen.dart';
 import 'package:whatsapp/features/auth/screens/user_information_screen.dart';
 import 'package:whatsapp/features/select_contacts/screens/select_contacts_screen.dart';
 import 'package:whatsapp/features/chat/screens/mobile_chat_screen.dart';
+import 'package:whatsapp/features/status/screens/add_status_screen.dart';
+import 'package:whatsapp/features/status/screens/status_view_screen.dart';
 import 'package:whatsapp/mobile_layout_screen.dart';
+import 'package:whatsapp/models/status.dart';
 
 Route<dynamic> generateRoute(RouteSettings setttings) {
   switch (setttings.name) {
@@ -45,6 +50,22 @@ Route<dynamic> generateRoute(RouteSettings setttings) {
         builder: (context) => MobileChatScreen(
           name: name,
           uid: uid,
+        ),
+      );
+
+    case AddStatusScreen.routeName:
+      final file = setttings.arguments as File;
+      return MaterialPageRoute(
+        builder: (context) => AddStatusScreen(
+          file: file,
+        ),
+      );
+
+    case StatusViewScreen.routeName:
+      final status = setttings.arguments as Status;
+      return MaterialPageRoute(
+        builder: (context) => StatusViewScreen(
+          status: status,
         ),
       );
 

@@ -7,7 +7,7 @@ import 'package:whatsapp/common/providers/message_reply_to_provider.dart';
 import 'package:whatsapp/features/auth/controller/auth_controller.dart';
 import 'package:whatsapp/features/chat/repository/chat_repository.dart';
 import 'package:whatsapp/models/chat_contact.dart';
-import 'package:whatsapp/models/message_dart.dart';
+import 'package:whatsapp/models/message.dart';
 
 final chatControllerProvider = Provider((ref) {
   final chatRepository = ref.watch(chatRepositoryProvider);
