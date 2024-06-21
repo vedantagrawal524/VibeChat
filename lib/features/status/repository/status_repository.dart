@@ -76,6 +76,11 @@ class StatusRepository {
             'uid',
             isEqualTo: auth.currentUser!.uid,
           )
+          .where(
+            'uploadedAt',
+            isGreaterThan: Timestamp.fromDate(
+                DateTime.now().subtract(const Duration(hours: 24))),
+          )
           .get();
       if (statusSnapshot.docs.isNotEmpty) {
         Status status = Status.fromMap(statusSnapshot.docs[0].data());
@@ -86,6 +91,7 @@ class StatusRepository {
             .doc(statusSnapshot.docs[0].id)
             .update({
           'photoUrls': statusImageUrls,
+          'uploadedAt': Timestamp.fromDate(DateTime.now()),
           'whoCanSee': whoCanSeeUid,
         });
       } else {

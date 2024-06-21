@@ -12,9 +12,11 @@ class MobileChatScreen extends ConsumerWidget {
     super.key,
     required this.name,
     required this.uid,
+    required this.isGroupChat,
   });
   final String name;
   final String uid;
+  final bool isGroupChat;
   static const routeName = '/mobile-chat-screen';
 
   @override
@@ -22,32 +24,39 @@ class MobileChatScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarColor,
-        title: StreamBuilder<UserModel>(
-          stream: ref.read(authControllerProvider).userDataById(uid),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Loader();
-            }
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 18.5),
-                ),
-                Text(
-                  snapshot.data!.isOnline ? 'online' : 'offline',
-                  style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
+        title: isGroupChat
+            ? Text(
+                name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 18.5),
+              )
+            : StreamBuilder<UserModel>(
+                stream: ref.read(authControllerProvider).userDataById(uid),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Loader();
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 18.5),
+                      ),
+                      Text(
+                        snapshot.data!.isOnline ? 'online' : 'offline',
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
         centerTitle: false,
         actions: [
           IconButton(
@@ -69,8 +78,16 @@ class MobileChatScreen extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          Expanded(child: ChatList(receiverUserId: uid)),
-          BottomChatField(receiverUserId: uid),
+          Expanded(
+            child: ChatList(
+              receiverUserId: uid,
+              isGroupChat: isGroupChat,
+            ),
+          ),
+          BottomChatField(
+            receiverUserId: uid,
+            isGroupChat: isGroupChat,
+          ),
         ],
       ),
     );

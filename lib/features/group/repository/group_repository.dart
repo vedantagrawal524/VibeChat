@@ -63,16 +63,16 @@ class GroupRepository {
               profilePic,
             );
       }
-      var timeCreated = DateTime.now();
 
       grp.Group group = grp.Group(
         groupId: groupId,
         groupPic: photoUrl,
         name: name,
-        lastMessage: '',
+        lastMessage: 'You have been added to $name',
         membersUid: [auth.currentUser!.uid, ...uids],
         senderId: auth.currentUser!.uid,
-        timeCreated: timeCreated,
+        timeCreated: DateTime.now(),
+        lastMsgtimeSent: DateTime.now(),
       );
       await firestore.collection('groups').doc(groupId).set(group.toMap());
     } catch (e) {

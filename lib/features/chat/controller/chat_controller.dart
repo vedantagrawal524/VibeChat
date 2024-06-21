@@ -7,6 +7,7 @@ import 'package:whatsapp/common/providers/message_reply_to_provider.dart';
 import 'package:whatsapp/features/auth/controller/auth_controller.dart';
 import 'package:whatsapp/features/chat/repository/chat_repository.dart';
 import 'package:whatsapp/models/chat_contact.dart';
+import 'package:whatsapp/models/group.dart';
 import 'package:whatsapp/models/message.dart';
 
 final chatControllerProvider = Provider((ref) {
@@ -30,6 +31,7 @@ class ChatController {
     BuildContext context,
     String text,
     String receiverUserId,
+    bool isGroupChat,
   ) {
     final messageReplyTo = ref.read(messageReplyProvider);
     ref.read(userDataAuthProvider).whenData(
@@ -39,6 +41,7 @@ class ChatController {
             receiverUserId: receiverUserId,
             sendUser: value!,
             messageReplyTo: messageReplyTo,
+            isGroupChat: isGroupChat,
           ),
         );
     ref.read(messageReplyProvider.notifier).update((state) => null);
@@ -48,8 +51,16 @@ class ChatController {
     return chatRepository.getChatContacts();
   }
 
+  Stream<List<Group>> chatGroups() {
+    return chatRepository.getchatGroups();
+  }
+
   Stream<List<Message>> chatStream(String receiverUserId) {
     return chatRepository.getChatStream(receiverUserId);
+  }
+
+  Stream<List<Message>> groupChatStream(String groupId) {
+    return chatRepository.getGroupChatStream(groupId);
   }
 
   void sendFileMessag(
@@ -57,6 +68,7 @@ class ChatController {
     File file,
     String receiverUserId,
     MessageEnum messagetype,
+    bool isGroupChat,
   ) {
     final messageReplyTo = ref.read(messageReplyProvider);
 
@@ -69,6 +81,7 @@ class ChatController {
             ref: ref,
             messagetype: messagetype,
             messageReplyTo: messageReplyTo,
+            isGroupChat: isGroupChat,
           ),
         );
     ref.read(messageReplyProvider.notifier).update((state) => null);
@@ -78,6 +91,7 @@ class ChatController {
     BuildContext context,
     String gifUrl,
     String receiverUserId,
+    bool isGroupChat,
   ) {
     int lastind = gifUrl.lastIndexOf('-') + 1;
     String gifUrlPart = gifUrl.substring(lastind);
@@ -91,6 +105,7 @@ class ChatController {
             receiverUserId: receiverUserId,
             sendUser: value!,
             messageReplyTo: messageReplyTo,
+            isGroupChat: isGroupChat,
           ),
         );
     ref.read(messageReplyProvider.notifier).update((state) => null);
