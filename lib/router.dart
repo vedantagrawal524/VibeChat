@@ -5,6 +5,7 @@ import 'package:whatsapp/common/widgets/error_screen.dart';
 import 'package:whatsapp/features/auth/screens/login_screen.dart';
 import 'package:whatsapp/features/auth/screens/otp_screen.dart';
 import 'package:whatsapp/features/auth/screens/user_information_screen.dart';
+import 'package:whatsapp/features/group/screens/create_group_screen.dart';
 import 'package:whatsapp/features/select_contacts/screens/select_contacts_screen.dart';
 import 'package:whatsapp/features/chat/screens/mobile_chat_screen.dart';
 import 'package:whatsapp/features/status/screens/add_status_screen.dart';
@@ -67,6 +68,11 @@ Route<dynamic> generateRoute(RouteSettings setttings) {
         builder: (context) => StatusViewScreen(
           status: status,
         ),
+      );
+
+    case CreateGroupScreen.routeName:
+      return MaterialPageRoute(
+        builder: (context) => const CreateGroupScreen(),
       );
 
     default:

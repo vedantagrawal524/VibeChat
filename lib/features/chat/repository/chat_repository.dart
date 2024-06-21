@@ -54,6 +54,7 @@ class ChatRepository {
             lastMessage: chatContact.lastMessage,
           ));
         }
+        // contacts.sort((a, b) => a.timeSent.compareTo(b.timeSent));
         return contacts;
       },
     );
