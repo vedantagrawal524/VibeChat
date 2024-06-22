@@ -116,7 +116,7 @@ class _MobileLayoutScreenState extends ConsumerState<MobileLayoutScreen>
           children: const [
             ContactList(),
             StatusScreen(),
-            Text('Calls'),
+            Center(child: Text('No Calls Made.')),
           ],
         ),
         floatingActionButton: FloatingActionButton(
