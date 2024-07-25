@@ -92,6 +92,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               Column(
                 children: [
+                  const SizedBox(height: 15),
                   SizedBox(
                     width: 90,
                     child: CustomButton(

@@ -14,6 +14,7 @@ class SenderMessageCard extends StatelessWidget {
     required this.repliedToMessage,
     required this.repiledToUser,
     required this.replyToType,
+    required this.isGroupChat,
   });
   final String message;
   final String date;
@@ -22,10 +23,11 @@ class SenderMessageCard extends StatelessWidget {
   final String repliedToMessage;
   final String repiledToUser;
   final MessageEnum replyToType;
+  final bool isGroupChat;
 
   @override
   Widget build(BuildContext context) {
-    final isReplying = repliedToMessage.isNotEmpty;
+    final isReply = repliedToMessage.isNotEmpty;
     return SwipeTo(
       onRightSwipe: (details) {
         onRightSwipe();
@@ -49,8 +51,8 @@ class SenderMessageCard extends StatelessWidget {
                 Padding(
                   padding: messageType == MessageEnum.text
                       ? const EdgeInsets.only(
-                          left: 7,
-                          right: 10,
+                          left: 5,
+                          right: 7,
                           top: 5,
                           bottom: 20,
                         )
@@ -61,22 +63,35 @@ class SenderMessageCard extends StatelessWidget {
                           bottom: 20,
                         ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (isReplying) ...[
-                        Text(
-                          repiledToUser,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 3),
+                      if (isReply) ...[
                         Container(
-                          padding: const EdgeInsets.all(10),
+                          alignment: Alignment.topLeft,
+                          padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
-                              color: backgroundColor.withOpacity(0.5),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5))),
-                          child: DisplayFile(
-                            file: repliedToMessage,
-                            messageType: replyToType,
+                            color: backgroundColor.withOpacity(0.5),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                repiledToUser,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: tabColor,
+                                ),
+                              ),
+                              const SizedBox(height: 3),
+                              DisplayFile(
+                                file: repliedToMessage,
+                                messageType: replyToType,
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(height: 3),

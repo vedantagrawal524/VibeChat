@@ -108,6 +108,7 @@ class _ChatListState extends ConsumerState<ChatList> {
                 repliedToMessage: message.repliedToMessage,
                 repiledToUser: message.repliedToUser,
                 replyToType: message.replyToType,
+                isGroupChat: widget.isGroupChat,
               );
             }
           },

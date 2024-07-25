@@ -1,2 +1,2 @@
 const String defaultImage =
-    'https://firebasestorage.googleapis.com/v0/b/whatsapp-8fbbf.appspot.com/o/defaults%2FprofilePic.jpg?alt=media&token=130ba278-56e7-4f20-b2a8-6ed7ffb56699';
+    'https://firebasestorage.googleapis.com/v0/b/whatsapp-8fbbf.appspot.com/o/defaults%2Fpp1.jpg?alt=media&token=0963f3e8-0bb0-4e8c-866b-2c4b79375505';

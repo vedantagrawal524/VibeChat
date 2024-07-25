@@ -52,7 +52,7 @@ class MyMessageCard extends StatelessWidget {
                   padding: messageType == MessageEnum.text
                       ? const EdgeInsets.only(
                           left: 5,
-                          right: 10,
+                          right: 5,
                           top: 5,
                           bottom: 20,
                         )
@@ -63,23 +63,35 @@ class MyMessageCard extends StatelessWidget {
                           bottom: 20,
                         ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (isReply) ...[
-                        Text(
-                          repiledToUser,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 3),
                         Container(
-                          padding: const EdgeInsets.all(10),
+                          alignment: Alignment.topLeft,
+                          padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
                             color: backgroundColor.withOpacity(0.5),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(5)),
                           ),
-                          child: DisplayFile(
-                            file: repliedToMessage,
-                            messageType: replyToType,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                repiledToUser,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: tabColor,
+                                ),
+                              ),
+                              const SizedBox(height: 3),
+                              DisplayFile(
+                                file: repliedToMessage,
+                                messageType: replyToType,
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(height: 3),
